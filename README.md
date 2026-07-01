@@ -1,55 +1,41 @@
 # Azure IaC Landing Zone
 
 ## Business Problem
-A small business needed a secure, repeatable Azure network 
-environment that could be deployed consistently without manual 
-configuration errors putting their systems at risk.
+A small business needed a secure Azure network environment that could be deployed consistently across multiple stages without manual configuration errors putting their production systems at risk.
 
 ## What I Built
-I provisioned a secure Azure network foundation using Terraform. 
-All infrastructure is defined as code and deployed via the Azure 
-CLI — no manual portal configuration.
+I provisioned a secure Azure network foundation using Terraform. Everything is defined as code and deployed through the Azure CLI. No clicking around the portal, no manual configuration.
 
 ## Architecture
 ![Azure Portal showing deployed resources](screenshot.png)
 
 ## Resources I Deployed
-- Resource Group
-- Virtual Network (10.0.0.0/16)
-- Application Subnet (10.0.1.0/24)
-- Network Security Group
+Resource Group
+Virtual Network (10.0.0.0/16)
+Application Subnet (10.0.1.0/24)
+Network Security Group
 
 ## Key Decisions
-**Why Terraform over manual portal configuration?**
-Manual portal configuration is not repeatable or auditable. 
-Terraform lets me version control infrastructure the same way 
-developers version control code. Any environment can be rebuilt 
-in minutes from the same config.
 
-**Why separate variables from the main configuration?**
-Hardcoding values like subscription ID and region into main.tf 
-makes the code environment-specific and unmaintainable. Separating 
-variables makes the same config reusable across dev, staging, 
-and production environments.
+**Why Terraform over the portal?**
+Manual portal configuration is not repeatable. If something breaks or I need to spin up a second environment, I'd have to remember every click. With Terraform the infrastructure lives in code, it's version controlled, and I can rebuild the entire environment in under two minutes.
+
+**Why separate variables from the main config?**
+Hardcoding values like subscription ID and region directly into main.tf makes the code environment-specific and impossible to reuse. Pulling them into variables means the same config works across dev, staging, and production without touching the core files.
 
 **Why gitignore the tfvars and state files?**
-The tfvars file contains the subscription ID and the state file 
-contains a full map of live infrastructure. Committing either 
-to a public repo is a security risk. Sensitive values stay 
-local, never in version control.
+The tfvars file holds my subscription ID and the state file contains a full map of live infrastructure. Pushing either to a public repo is a security risk. Sensitive values stay local and never touch version control.
 
 ## Tools I Used
-- Terraform v1.15
-- Azure CLI
-- Azure Resource Manager (azurerm provider v4)
+Terraform v1.15
+Azure CLI
+Azure Resource Manager (azurerm provider v4)
 
 ## How to Deploy
 1. Clone this repo
-2. Run `az login`
-3. Add your subscription ID to `terraform.tfvars`
-4. Run `terraform init && terraform plan && terraform apply`
+2. Run az login
+3. Add your subscription ID to terraform.tfvars
+4. Run terraform init && terraform plan && terraform apply
 
 ## How to Destroy
-```bash
 terraform destroy
-```
