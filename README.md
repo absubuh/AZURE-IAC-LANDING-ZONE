@@ -1,7 +1,7 @@
 # Azure IaC Landing Zone
 
 ## Business Problem
-A small business needed a secure Azure network environment that could be deployed consistently across multiple stages without manual configuration errors putting their production systems at risk.
+Most infrastructure mistakes don't happen because someone wrote bad code. They happen because someone clicked the wrong thing in the portal and nobody can reproduce what they did. Manual configuration is invisible, unrepeatable, and one human error away from taking down a production environment. I built this to show how you eliminate that risk entirely.
 
 ## What I Built
 I provisioned a secure Azure network foundation using Terraform. Everything is defined as code and deployed through the Azure CLI. No clicking around the portal, no manual configuration.
